@@ -1,0 +1,214 @@
+<!-- You must include this JavaScript file -->
+<style>
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.checkboxgroup{
+    width: 20em;
+    overflow: auto;
+}
+.checkboxgroup p{
+    width: 7em;
+    text-align: right;
+}
+.checkboxgroup label{
+    width: 12em;
+    float: right;
+}
+.conditional_form_part {
+    display: none;
+  }
+
+  .conditional_form_part_activator:checked + .conditional_form_part {
+    display: block;
+  }
+</style>
+
+<script src="https://assets.crowd.aws/crowd-html-elements.js">
+
+</script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+
+<crowd-form answer-format="flatten-objects">
+
+   <div align="center">
+   <crowd-instructions link-text="Check the instructions before starting the task" link-type="button">
+        <short-summary>
+            <p>
+                In this task you will be given snapshots from Minecraft video game, and you are required to identify certain objects in that snapshot, and also describe their relative position relative to the player playing the game. All the images are given in a first person perspective, so the image shows exactly what the agent saw during the gameplay.
+                Please refer to the detailed instructions for a gameplay video, and the list of objects you need to identify, and the kind of reponses expected.
+            </p>
+        </short-summary>
+        
+        <detailed-instructions>
+
+            <h3>
+                Minecraft gameplay video
+            </h3>
+            <video width="640" height="480" controls>
+              <source src="https://visdial.s3.us-east-2.amazonaws.com/instructions/gamplay_video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+         <!--    <h3>
+                Example snapshot of the game in first person view.
+            </h3>
+            <iframe src="https://drive.google.com/file/d/12cdBrdBafvWnWWcIg2ZFTsq-WFjN9-wX/preview" width="640" height="480"></iframe> -->
+
+            <h3>
+              Objects of interest
+            </h3>
+          
+          <table align="center" border=1>
+           <thead>
+               <tr>
+                 <th rowspan="2">Object Name</th>
+                 <th rowspan="2">Object example image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fire</td>
+                    <td align="center"><img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/fire.png"/></td>
+                </tr>
+                <tr>
+                    <td>Door</td>
+                    <td align="center"><img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/door_closed.png"/></td>
+                </tr>
+                <tr>
+                    <td>Victims</td>
+                    <td align ="center">
+                        <img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/victim_blue.png"/><br>/
+                        <img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/victim_red.png"/><br>
+                        <img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/victim_green.png"/><br>
+                        <img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/victim_white.png"/><br>
+                        <img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/victim_orange.png"/><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lever</td>
+                    <td align ="center"><img src="https://visdial.s3.us-east-2.amazonaws.com/instructions/lever.png"/></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>
+          Expected responses:
+          <h4>
+            Descriptive response:
+          </h4>
+            Describe the scene in as much relevant detail about the object of interest and its surroundings as you want, but do include the objects of interest's relative position. Also do not mention that you are describing an image, rather write your description assuming you are the one playing the game.
+            <h4>
+            Template based response:
+          </h4>
+            For this type of response you will have to select the objects of interest using the buttons provided under the "Template response" section. Click the checkbox for all the objects that you think are present in the given scene. Selecting any object will reveal a few fields where you will be required be to fill in some template based resonses. The fields will be:
+            <ul>
+              <li> Count: Mention the number of instances of the selected object in the scene </li>
+              <li>State (only for door, and lever)
+                <ul>
+                  <li>For door: Each door has two states, "open", and "close". Index the doors with numbers starting from 1, and write the state of each door in a paranthesis in the format (index,state). Seperate each of the paranthesis blocks by a comma. Eg: (1,open), (2,close), (3,close)</li>
+                  <li>For Lever: Each lever has two states, "up", and "down".  Index the doors with numbers starting from 1, and write the state of each lever in a paranthesis in the format (index,state). Seperate each of the paranthesis blocks by a comma. Eg: (1,up), (2,down), (3,up)</li>
+                </ul>
+              </li>
+              <li>
+                Color (only for victims): Each victim can have any of the six colors, 'red', 'green', 'blue', 'orange', 'yellow', 'white'. Index the victims with numbers starting from 1, and write the color of each victim in a paranthesis in the format (index,color). Seperate each of the paranthesis blocks by a comma. Eg: (1,red), (2,green), (3,blue)
+              </li>
+              <li>Relative position: Each instance of the object can be either to the "left", "right", or "front" with respect to the first person view. Index the instances of the object with numbers starting from 1, and write the relative poistion of each instance in a paranthesis in the format (index,positiob). Seperate each of the paranthesis blocks by a comma. Eg: (1,left), (2,right), (3,front)</li>
+            </ul>
+        </h3>
+        </detailed-instructions>
+        <!-- <positive-example>
+            <img src="https://visdial.s3.us-east-2.amazonaws.com/data/trajectory_frames/2020-03-17_11-25-43_PM_frame_112.png" height:75% width:75%/>
+            <p>
+               Descriptive response : There is a red victim in front of me, surrounded by obstacles.
+            </p>
+            <p>
+                Template response: red_victim front
+            </p>
+        </positive-example> -->
+    </crowd-instructions> <br>
+    </div>
+<div align="center"; style="width: 100%; overflow: hidden;">
+<div style="display: table
+-row">
+    <div style="width: 600px; display: table-cell;">
+    <img src="https://visdial.s3.us-east-2.amazonaws.com/data/trajectory_frames/2020-03-17_11-25-43_PM_frame_1.png" style="max-width: 100%; max-height: 100%"/>
+    </div>
+</div> 
+</div>
+</div>
+</div>
+
+  <div>
+    <h3>Descriptive response:</h3>
+    <crowd-input name="Response" placeholder="Describe the scene without mentioning that you are describing an image" required></crowd-input>
+  </div><br>
+
+<form>
+    <h3>Template based response</h3>
+<div><crowd-checkbox name="Door" value="False"> Door</crowd-checkbox></div>
+        <p> Number of Doors:</p>
+        <crowd-slider name="Count" min="0" max="20" step="1" pin="true" editable="true" value="0" ></crowd-slider>
+          <crowd-input name="state of the door" placeholder="mention the state ('open', 'close') of each instance of the door. eg: (1,open), (2,close), (3,close)" ></crowd-input>
+        <crowd-input name="Position" placeholder="mention the relative position ('left', 'right', 'front') of each instance of the door with respect to the agent's first person view. eg: (1,left), (2,front), (3,front)" ></crowd-input>
+    </div>
+<div><crowd-checkbox name="Fire" value="False"> Fire</crowd-checkbox></div>
+    <!-- <div class="conditional_form_part"> -->
+      <p>Number of seperate fires</p>
+        <crowd-slider name="Count" min="0" max="20" step="1" pin="true" editable="true" value="0" ></crowd-slider>
+        <crowd-input name="Position" placeholder="mention the relative position ('left', 'right', 'front') of each instance of the fire with respect to the agent's first person view. eg: (1,left), (2,front), (3,front)" ></crowd-input>
+    <!-- </div> -->
+<input name="temp" class="conditional_form_part_activator" type="checkbox" value="lever">
+<div><crowd-checkbox name="Lever" value="False"> Lever</crowd-checkbox></div>
+        <p>Number of Levers</p>
+        <crowd-slider name="Count" min="0" max="20" step="1" pin="true" editable="true" value="0" ></crowd-slider>
+        <crowd-input name="state of the lever" placeholder="mention the state ('up', 'down') of each instance of the lever. eg: (1,up), (2,down), (3,up)" ></crowd-input>
+        <crowd-input name="Position" placeholder="mention the relative position ('left', 'right', 'front') of each instance of the lever with respect to the agent's first person view. eg: (1,left), (2,front), (3,front)" ></crowd-input>
+
+<div><crowd-checkbox name="Victims" value="False"> Victims</crowd-checkbox></div>
+        <p>Number of Victims</p>
+        <crowd-slider name="Count" min="0" max="20" step="1" pin="true" editable="true" value="0" ></crowd-slider>
+        <crowd-input name="Color" placeholder="mention the color ('red', 'green', 'blue', 'orange', 'yellow', 'white') of each instance of the victims. eg: (1,green), (2,red), (3,white)" ></crowd-input>
+        <crowd-input name="Position" placeholder="ention the relative position ('left', 'right', 'front') of each instance of the victims with respect to the agent's first person view. eg: (1,left), (2,front), (3,front)" ></crowd-input>
+</form>
+</div>
+</crowd-form>

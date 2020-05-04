@@ -1,0 +1,110 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js">
+   $('[name="Num_units"]').on('change', function() {
+    // Not checking for Invalid input
+    if (this.value != '') {
+        var val = parseInt(this.value, 10);
+        var rows = $('#Objects_info tr'),
+            rowCnt = rows.length - 1; // Allow for header row
+        
+        if (rowCnt > val) {
+            for (var i = rowCnt; i > val; i--) {
+                rows[i].remove();
+            }
+        }
+        if (rowCnt < val) {
+            for (var i = 0; i < val - rowCnt; i++) {
+                // Clone the Template
+                var $cloned = $('.template tbody').clone();
+                // For each Candidate append the template row
+                $('#Objects_info tbody').append($cloned.html());
+            }
+        }
+    }
+});
+</script>
+
+<crowd-form>
+
+<p>
+   <label><strong>Number of Doors</strong></label>
+   <label><input name="Num_units" type="text" placeholder="Type the Number of units of the object type"  /></label>
+<div class="clear"></div>
+</p>
+<div class="Doors">
+   <table id="Objects_info" width="630" border="1">
+            <tr>
+         <td>Location</td>
+         <td>State</td>
+      </tr>
+      <tr>
+         <td>
+            <select name="Relative_location" required="required">
+               <option value="Left">Left</option>
+               <option value="Right">Right</option>
+               <option selected="selected"value="Front">Front</option>
+            </select>
+         </td>
+         <td>
+            <select name="State" required="required">
+               <option value="Open">Open </option>
+               <option value="Close">Close</option>
+            </select>
+         </td>
+      </tr>
+      </table>
+</div>
+
+<p>
+   <label><strong>Number of Victims</strong></label>
+   <label><input name="Num_units" type="text" placeholder="Type the Number of units of the object type"  /></label>
+<div class="clear"></div>
+</p>
+<div class="Victims">
+   <table id="Objects_info" width="630" border="1">
+            <tr>
+         <td>Location</td>
+         <td>State</td>
+      </tr>
+      <tr>
+         <td>
+            <select name="Relative_location" required="required">
+               <option value="Left">Left</option>
+               <option value="Right">Right</option>
+               <option selected="selected"value="Front">Front</option>
+            </select>
+         </td>
+         <td>
+            <select name="Color" required="required">
+               <option value="Red">Red </option>
+               <option value="Blue">Blue</option>
+            </select>
+         </td>
+      </tr>
+      </table>
+</div>
+
+<div class="template" style="display: none">
+    <table>
+          <tr>
+         <td>Location</td>
+         <td>State</td>
+      </tr>
+      <tr>
+         <td>
+            <select name="Relative_location" required="required">
+               <option value="Left">Left</option>
+               <option value="Right">Right</option>
+               <option selected="selected"value="Front">Front</option>
+            </select>
+         </td>
+         <td>
+            <select name="State" required="required">
+               <option value="Open">Open </option>
+               <option value="Close">Close</option>
+            </select>
+         </td>
+      </tr>
+  </table>
+</div>
+<crowd-form>
+
